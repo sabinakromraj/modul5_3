@@ -6,7 +6,8 @@ class BaseContact:
         self.last_name = last_name
         self.phone_number = phone_number
         self.email = email
-    
+        self._label_length = len(self.first_name + " " + self.last_name)
+
     def __str__(self):
         return f"Imię: {self.first_name} Nazwisko: {self.last_name} Telefon: {self.phone_number} Email: {self.email}"
 
@@ -15,7 +16,7 @@ class BaseContact:
 
     @property
     def label_length(self):
-        return len(self.first_name + " " + self.last_name)
+        return self._label_length
     
 class BusinessContact(BaseContact):
     def __init__(self, job, company, business_number, *args, **kwargs):
@@ -30,10 +31,6 @@ class BusinessContact(BaseContact):
     
     def contact(self):
         return f"Wybieram numer {self.business_number} i dzwonię do {self.first_name} {self.last_name}"
-
-    @property
-    def label_length(self):
-        return len(self.first_name + " " + self.last_name)
     
 def create_contacts(contact_type, count):
     fake = Faker()
@@ -49,13 +46,15 @@ def create_contacts(contact_type, count):
     
     return contacts
 
-base_contacts = create_contacts("BaseContact", 3)
-business_contacts = create_contacts("BusinessContact", 2)
+if __name__ == "__main__":
+    base_contacts = create_contacts("BaseContact", 3)
+    business_contacts = create_contacts("BusinessContact", 2)
 
-print("Losowe kontakty podstawowe:")
-for contact in base_contacts:
-    print(contact.contact())
+    print("Losowe kontakty podstawowe:")
+    for contact in base_contacts:
+        print(contact.contact())
 
-print("\nLosowe kontakty biznesowe:")
-for contact in business_contacts:
-    print(contact.contact())
+    print("\nLosowe kontakty biznesowe:")
+    for contact in business_contacts:
+        print(contact.contact())
+
